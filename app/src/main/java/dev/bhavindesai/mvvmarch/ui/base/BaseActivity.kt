@@ -2,10 +2,11 @@ package dev.bhavindesai.mvvmarch.ui.base
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import dev.bhavindesai.mvvmarch.R
 import dev.bhavindesai.mvvmarch.ui.constants.FragmentAnimation
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
 
     fun addOrReplaceFragment(fragment: Fragment, containerViewId: Int, isAdded: Boolean = false, fragmentAnimation: FragmentAnimation = FragmentAnimation.DEFAULT): Int {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -29,4 +30,18 @@ abstract class BaseActivity : AppCompatActivity() {
 
         return fragmentTransaction.commit()
     }
+
+    private fun getCurrentFragment(): Fragment? {
+        return supportFragmentManager.findFragmentById(R.id.container)
+    }
+
+    override fun onBackStackChanged() {
+        val fragment = getCurrentFragment()
+
+        fragment?.let {
+            (fragment as BaseFragment).onReAppear()
+        }
+    }
+
+    abstract fun setActionBarVisibility(isVisible: Boolean)
 }
