@@ -20,6 +20,11 @@ class LoginViewModel(private val dataRepository: LoginRepository) : BaseViewMode
     private val mldToken = MutableLiveData<String>()
     val ldLoginToken : LiveData<String> = mldToken
 
+    init {
+        emailAddress.value = "eve.holt@reqres.in"
+        password.value = "cityslicka"
+    }
+
     private val observer: Observer<Resource<LoginResponse>> = Observer {
         when (it) {
             is Resource.Loading -> _showLoader.value = true
