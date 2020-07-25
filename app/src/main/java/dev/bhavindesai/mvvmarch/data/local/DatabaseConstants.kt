@@ -15,5 +15,6 @@ object DatabaseConstants {
     /**
      * Entities
      */
+    const val mTableUsers: String = "Users"
 
 }
